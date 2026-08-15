@@ -3,407 +3,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>PACTSOL | B2B Procurement & Supply Solutions</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        html, body { width: 100%; max-width: 100%; margin: 0; padding: 0; overflow-x: hidden; }
+        *, *::before, *::after { box-sizing: border-box; }
+        img { max-width: 100%; height: auto; }
+        @media (max-width: 767px) {
+            header > div { width: 100%; padding: 14px 16px; gap: 10px; }
+            .pactsol-brand { position: static !important; left: auto !important; font-size: 2.25rem !important; line-height: 1; }
+            .pactsol-logo { height: 2.75rem !important; }
+            .mobile-nav { display: block; }
+        }
+        @media (min-width: 768px) { .mobile-nav { display: none; } }
+    </style>
 </head>
-
 <body>
-
-<!-- Header -->
-<header class="bg-[#52718A]">
-    <div class="mx-auto flex max-w-6xl items-center px-6 py-5">
-
-        <!-- Logo -->
+<header class="w-full bg-[#52718A]">
+    <div class="mx-auto flex w-full max-w-6xl items-center px-6 py-5">
         <div class="flex shrink-0 items-center">
-            <img
-                src="images/logo.jpg"
-                alt="PACTSOL - Producer & Consumer Trade Solutions"
-                class="h-12 w-auto object-contain"
-            >
+            <img src="images/logo.jpg" alt="PACTSOL - Producer & Consumer Trade Solutions" class="pactsol-logo h-12 w-auto object-contain">
         </div>
-
-        <!-- Company Name -->
-        <div class="flex flex-1 items-center justify-center">
-            <div class="relative left-14 text-7xl font-bold tracking-wide text-white whitespace-nowrap">
-                PACTSOL
-            </div>
+        <div class="flex min-w-0 flex-1 items-center justify-center">
+            <div class="pactsol-brand relative left-14 whitespace-nowrap text-7xl font-bold tracking-wide text-white">PACTSOL</div>
         </div>
-
-        <!-- Navigation -->
-        <nav class="flex shrink-0 items-center gap-7 text-sm font-medium">
-
-            <a href="#what-we-do"
-               class="whitespace-nowrap text-white hover:text-[#D8DCCF]">
-                What We Do
-            </a>
-
-            <a href="#products"
-               class="whitespace-nowrap text-white hover:text-[#D8DCCF]">
-                Products
-            </a>
-
-            <a href="#customers"
-               class="whitespace-nowrap text-white hover:text-[#D8DCCF]">
-                Customers
-            </a>
-
-            <a href="#suppliers"
-               class="whitespace-nowrap text-white hover:text-[#D8DCCF]">
-                Suppliers
-            </a>
-
-            <a href="#contact"
-               class="whitespace-nowrap text-white hover:text-[#D8DCCF]">
-                Contact Us
-            </a>
-
+        <nav class="hidden shrink-0 items-center gap-7 text-sm font-medium md:flex">
+            <a href="#what-we-do" class="whitespace-nowrap text-white hover:text-[#D8DCCF]">What We Do</a>
+            <a href="#products" class="whitespace-nowrap text-white hover:text-[#D8DCCF]">Products</a>
+            <a href="#customers" class="whitespace-nowrap text-white hover:text-[#D8DCCF]">Customers</a>
+            <a href="#suppliers" class="whitespace-nowrap text-white hover:text-[#D8DCCF]">Suppliers</a>
+            <a href="#contact" class="whitespace-nowrap text-white hover:text-[#D8DCCF]">Contact Us</a>
         </nav>
-
+        <details class="mobile-nav relative shrink-0">
+            <summary class="cursor-pointer list-none rounded-md px-2 py-1 text-2xl leading-none text-white" aria-label="Open navigation">☰</summary>
+            <nav class="absolute right-0 top-11 z-50 min-w-48 rounded-md bg-white p-3 shadow-lg">
+                <a href="#what-we-do" class="block rounded px-3 py-2 text-sm font-medium text-[#0B3558] hover:bg-slate-100">What We Do</a>
+                <a href="#products" class="block rounded px-3 py-2 text-sm font-medium text-[#0B3558] hover:bg-slate-100">Products</a>
+                <a href="#customers" class="block rounded px-3 py-2 text-sm font-medium text-[#0B3558] hover:bg-slate-100">Customers</a>
+                <a href="#suppliers" class="block rounded px-3 py-2 text-sm font-medium text-[#0B3558] hover:bg-slate-100">Suppliers</a>
+                <a href="#contact" class="block rounded px-3 py-2 text-sm font-medium text-[#0B3558] hover:bg-slate-100">Contact Us</a>
+            </nav>
+        </details>
     </div>
 </header>
-
-    
-
-
-    <!-- Main Content -->
-    <main>
-
-        <!-- Introduction + What We Do -->
-<section id="what-we-do" class="bg-[#F7F4EE]">
-
-    <div class="mx-auto max-w-6xl px-6 py-20">
-
-        <div class="mx-auto max-w-4xl text-center">
-
-            <!--<p class="mb-4 text-sm font-semibold uppercase tracking-widest text-[#57643A]">
-                <p class="mb-8 text-sm font-semibold uppercase tracking-widest text-gray-800"></p>
-                B2B Procurement & Supply Solutions
-            </p>
-        -->
-
-            <h2 class="text-4xl font-bold leading-tight text-[#0B3558] md:text-5xl">
-                Connecting Business Requirements with Reliable Supply Sources
-            </h2>
-
-            <!--
-            <p class="mx-auto mt-6 max-w-4xl text-lg leading-8 text-gray-600">
-                PACTSOL supports businesses in identifying relevant products and reliable supply sources
-                based on their procurement requirements, specifications and sourcing needs.
-
-                We help connect business requirements with suitable supply opportunities through a structured
-                and responsive procurement approach.
-                
-            </p>
-        -->
-            <p class="mx-auto mt-6 max-w-4xl text-lg leading-8 text-gray-800">
-                PACTSOL supports businesses in identifying relevant products and reliable supply sources
-                based on their procurement requirements, specifications and sourcing needs.
-
-	</p>
-
-            <p class="mx-auto mt-6 max-w-4xl text-lg leading-8 text-gray-800">	
-	            We help connect business requirements with suitable supply opportunities through a structured
-	            and responsive procurement approach.
-	</p>
-
-            <p class="mb-8 text-sm font-semibold uppercase tracking-widest text-gray-800"></p>
-                B2B Procurement & Supply Solutions
-            </p>
-            
+<main>
+    <section id="what-we-do" class="w-full bg-[#F7F4EE]">
+        <div class="mx-auto w-full max-w-6xl px-6 py-20">
+            <div class="mx-auto max-w-4xl text-center">
+                <h2 class="text-4xl font-bold leading-tight text-[#0B3558] md:text-5xl">Connecting Business Requirements with Reliable Supply Sources</h2>
+                <p class="mx-auto mt-6 max-w-4xl text-lg leading-8 text-gray-800">PACTSOL supports businesses in identifying relevant products and reliable supply sources based on their procurement requirements, specifications and sourcing needs.</p>
+                <p class="mx-auto mt-6 max-w-4xl text-lg leading-8 text-gray-800">We help connect business requirements with suitable supply opportunities through a structured and responsive procurement approach.</p>
+                <p class="mb-8 mt-8 text-sm font-semibold uppercase tracking-widest text-gray-800">B2B Procurement &amp; Supply Solutions</p>
+            </div>
         </div>
-
-    </div>
-
-</section>
-
-
-        <!-- Products / Procurement Areas -->
-       <section id="products" class="bg-[#F2F4F3]">
-
-    <div class="mx-auto max-w-6xl px-6 py-16">
-
-        <div class="max-w-3xl">
-
-    <p class="mb-3 text-sm font-medium uppercase tracking-widest text-[#57643A]">
-        Procurement Areas
-    </p>
-
-    <h2 class="text-4xl font-bold leading-tight text-[#0B3558] md:text-5xl">
-        Products & Procurement Areas
-    </h2>
-
-    <p class="mt-5 max-w-3xl text-lg leading-8 text-slate-600">
-        Explore the product categories we currently support for
-        business procurement.
-    </p>
-
-</div>
-
-
-        <!-- Product Categories -->
-        <div class="mt-8 max-w-4xl space-y-3">
-
-
-            <!-- Category 1 -->
-            <details class="rounded-lg border border-slate-200 bg-white transition-colors hover:border-slate-300">
-
-    <summary class="cursor-pointer px-5 py-4 font-semibold text-[#0B3558] marker:text-[#57643A]">
-        Packaging Materials
-    </summary>
-                <div class="border-t border-gray-100 px-5 py-4 text-gray-600">
-
-                    <ul class="list-disc space-y-2 pl-5">
-                        <li>Stretch Film</li>
-                        <li>Packaging Tape</li>
-                        <li>Strapping Materials</li>
-                        <li>Protective Packaging Materials</li>
-                    </ul>
-
-                </div>
-
-            </details>
-
-
-            <!-- Category 2 -->
-            <details class="rounded-lg border border-slate-200 bg-white transition-colors hover:border-slate-300">
-
-    <summary class="cursor-pointer px-5 py-4 font-semibold text-[#0B3558] marker:text-[#57643A]">
-        Industrial Consumables
-    </summary>
-
-                <div class="border-t border-gray-100 px-5 py-4 text-gray-600">
-
-                    <ul class="list-disc space-y-2 pl-5">
-                        <li>Industrial Consumables</li>
-                        <li>Maintenance Supplies</li>
-                        <li>General Industrial Supplies</li>
-                    </ul>
-
-                </div>
-
-            </details>
-
-
-            <!-- Category 3 -->
-                    <details class="rounded-lg border border-slate-200 bg-white transition-colors hover:border-slate-300">
-
-    <summary class="cursor-pointer px-5 py-4 font-semibold text-[#0B3558] marker:text-[#57643A]">
-                    Electrical & Electrical Consumables
-                </summary>
-
-                <div class="border-t border-gray-100 px-5 py-4 text-gray-600">
-
-                    <ul class="list-disc space-y-2 pl-5">
-                        <li>Electrical Consumables</li>
-                        <li>Cables & Accessories</li>
-                        <li>Electrical Components</li>
-                    </ul>
-
-                </div>
-
-            </details>
-
-
-            <!-- Category 4 -->
-                    <details class="rounded-lg border border-slate-200 bg-white transition-colors hover:border-slate-300">
-
-    <summary class="cursor-pointer px-5 py-4 font-semibold text-[#0B3558] marker:text-[#57643A]">
-                    Safety & PPE
-                </summary>
-
-                <div class="border-t border-gray-100 px-5 py-4 text-gray-600">
-
-                    <ul class="list-disc space-y-2 pl-5">
-                        <li>Personal Protective Equipment</li>
-                        <li>Industrial Safety Products</li>
-                        <li>Workplace Safety Supplies</li>
-                    </ul>
-
-                </div>
-
-            </details>
-
-
+    </section>
+    <section id="products" class="w-full bg-[#F2F4F3]">
+        <div class="mx-auto w-full max-w-6xl px-6 py-16">
+            <div class="max-w-3xl">
+                <p class="mb-3 text-sm font-medium uppercase tracking-widest text-[#57643A]">Procurement Areas</p>
+                <h2 class="text-4xl font-bold leading-tight text-[#0B3558] md:text-5xl">Products &amp; Procurement Areas</h2>
+                <p class="mt-5 max-w-3xl text-lg leading-8 text-slate-600">Explore the product categories we currently support for business procurement.</p>
+            </div>
+            <div class="mt-8 max-w-4xl space-y-3">
+                <details class="rounded-lg border border-slate-200 bg-white transition-colors hover:border-slate-300"><summary class="cursor-pointer px-5 py-4 font-semibold text-[#0B3558] marker:text-[#57643A]">Packaging Materials</summary><div class="border-t border-gray-100 px-5 py-4 text-gray-600"><ul class="list-disc space-y-2 pl-5"><li>Stretch Film</li><li>Packaging Tape</li><li>Strapping Materials</li><li>Protective Packaging Materials</li></ul></div></details>
+                <details class="rounded-lg border border-slate-200 bg-white transition-colors hover:border-slate-300"><summary class="cursor-pointer px-5 py-4 font-semibold text-[#0B3558] marker:text-[#57643A]">Industrial Consumables</summary><div class="border-t border-gray-100 px-5 py-4 text-gray-600"><ul class="list-disc space-y-2 pl-5"><li>Industrial Consumables</li><li>Maintenance Supplies</li><li>General Industrial Supplies</li></ul></div></details>
+                <details class="rounded-lg border border-slate-200 bg-white transition-colors hover:border-slate-300"><summary class="cursor-pointer px-5 py-4 font-semibold text-[#0B3558] marker:text-[#57643A]">Electrical &amp; Electrical Consumables</summary><div class="border-t border-gray-100 px-5 py-4 text-gray-600"><ul class="list-disc space-y-2 pl-5"><li>Electrical Consumables</li><li>Cables &amp; Accessories</li><li>Electrical Components</li></ul></div></details>
+                <details class="rounded-lg border border-slate-200 bg-white transition-colors hover:border-slate-300"><summary class="cursor-pointer px-5 py-4 font-semibold text-[#0B3558] marker:text-[#57643A]">Safety &amp; PPE</summary><div class="border-t border-gray-100 px-5 py-4 text-gray-600"><ul class="list-disc space-y-2 pl-5"><li>Personal Protective Equipment</li><li>Industrial Safety Products</li><li>Workplace Safety Supplies</li></ul></div></details>
+            </div>
         </div>
-
-    </div>
-
-</section>
-
-    <!-- Customers -->
-        <section id="customers" class="bg-[#F8F7F2] py-16">
-    <div class="mx-auto max-w-6xl px-6">
-
-        <p class="mb-3 text-sm font-medium uppercase tracking-widest text-[#57643A]">
-            For Customers
-        </p>
-
-        <h2 class="text-4xl font-bold leading-tight text-[#0B3558] md:text-5xl">
-            Share Your Procurement Requirement
-        </h2>
-
-        <p class="mt-5 max-w-3xl text-lg leading-8 text-slate-600">
-            Looking for a product, specification or reliable supply source for your business?
-        </p>
-
-        <p class="mt-4 max-w-3xl text-lg leading-8 text-slate-600">
-            Share your requirement with PACTSOL, including the product details,
-            specifications, quantity, delivery location and other relevant information.
-        </p>
-
-        <!--<div class=class="inline-block rounded-md bg-[#0B3558] px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#092B47]"> -->
-            <div class="mt-12">
-             <!--   
-            <a
-                href="#"
-                class="inline-block rounded-md bg-[#0B3558] px-6 py-3 text-sm font-semibold text-white hover:bg-[#092B47]"
-            >
-                Submit a Requirement
-            </a>
-            -->
-            <a
-  href="https://tally.so/r/lb2Mko"
-  target="_blank"
-  rel="noopener noreferrer"
-  class="inline-block bg-[#0B3A5B] text-white px-6 py-3 rounded-md font-semibold text-sm hover:opacity-90 transition"
->
-  Submit a Requirement
-</a>
-
+    </section>
+    <section id="customers" class="w-full bg-[#F8F7F2] py-16">
+        <div class="mx-auto w-full max-w-6xl px-6">
+            <p class="mb-3 text-sm font-medium uppercase tracking-widest text-[#57643A]">For Customers</p>
+            <h2 class="text-4xl font-bold leading-tight text-[#0B3558] md:text-5xl">Share Your Procurement Requirement</h2>
+            <p class="mt-5 max-w-3xl text-lg leading-8 text-slate-600">Looking for a product, specification or reliable supply source for your business?</p>
+            <p class="mt-4 max-w-3xl text-lg leading-8 text-slate-600">Share your requirement with PACTSOL, including the product details, specifications, quantity, delivery location and other relevant information.</p>
+            <div class="mt-12"><a href="https://tally.so/r/lb2Mko" target="_blank" rel="noopener noreferrer" class="inline-block rounded-md bg-[#0B3A5B] px-6 py-3 text-sm font-semibold text-white transition hover:opacity-90">Submit a Requirement</a></div>
         </div>
-
-    </div>
-</section>
-
-
-        <!-- Suppliers -->
-        <section id="suppliers" class="bg-[#F2F4F3] py-16">
-    <div class="mx-auto max-w-6xl px-6">
-
-        <p class="mb-3 text-sm font-medium uppercase tracking-widest text-[#57643A]">
-    For Suppliers
-</p>
-
-<h2 class="text-4xl font-bold leading-tight text-[#0B3558] md:text-5xl">
-    Partner with PACTSOL
-</h2>
-
-<p class="mt-5 max-w-3xl text-lg leading-8 text-slate-600">
-    Are you a manufacturer, distributor or supplier looking to reach
-    business customers through a reliable procurement channel?
-</p>
-
-<p class="mt-4 max-w-3xl text-lg leading-8 text-slate-600">
-    Register your products with PACTSOL and share key information such as
-    product specifications, MOQ, supply capacity and other relevant details.
-</p>
-        <!--
-        <div class=class="inline-block rounded-md bg-[#0B3558] px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#092B47]">
-        -->
-            <div class="mt-12">
-            <!--    
-            <a
-                href="#"
-                class="inline-block rounded-md bg-[#0B3558] px-6 py-3 text-sm font-semibold text-white hover:bg-[#092B47]"
-            >
-                Register as a Supplier
-            </a>
-            -->
-            <a
-  href="https://tally.so/r/PdQrdB"
-  target="_blank"
-  rel="noopener noreferrer"
-  class="inline-block bg-[#0B3A5B] text-white px-6 py-3 rounded-md font-semibold text-sm hover:opacity-90 transition"
->
-  Register as a Supplier
-</a>
-
+    </section>
+    <section id="suppliers" class="w-full bg-[#F2F4F3] py-16">
+        <div class="mx-auto w-full max-w-6xl px-6">
+            <p class="mb-3 text-sm font-medium uppercase tracking-widest text-[#57643A]">For Suppliers</p>
+            <h2 class="text-4xl font-bold leading-tight text-[#0B3558] md:text-5xl">Partner with PACTSOL</h2>
+            <p class="mt-5 max-w-3xl text-lg leading-8 text-slate-600">Are you a manufacturer, distributor or supplier looking to reach business customers through a reliable procurement channel?</p>
+            <p class="mt-4 max-w-3xl text-lg leading-8 text-slate-600">Register your products with PACTSOL and share key information such as product specifications, MOQ, supply capacity and other relevant details.</p>
+            <div class="mt-12"><a href="https://tally.so/r/PdQrdB" target="_blank" rel="noopener noreferrer" class="inline-block rounded-md bg-[#0B3A5B] px-6 py-3 text-sm font-semibold text-white transition hover:opacity-90">Register as a Supplier</a></div>
         </div>
-
-    </div>
-</section>
-
-            <!-- Tally Supplier Form button will go here later -->
-
-        </section>
-
-
-    
-
-    </main>
-
-
-    <!-- Footer -->
-<footer id="contact" class="bg-[#164A63]">
-    <div class="mx-auto max-w-6xl px-6 py-10">
-
+    </section>
+</main>
+<footer id="contact" class="w-full bg-[#164A63]">
+    <div class="mx-auto w-full max-w-6xl px-6 py-10">
         <div class="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-
-            <!-- Company Information -->
-             <!--
-            <div>
-                <p class="text-xl font-bold text-white">
-                    PACTSOL
-                </p>
-
-                <p class="mt-1 text-sm text-[#D8DCCF]">
-                    Producer & Consumer Trade Solutions
-                </p>
-
-                <p class="mt-2 text-sm text-slate-300">
-                    B2B Procurement & Supply Solutions
-                </p>
-            </div>
-            -->
-            <div>
-            <img
-            src="../images/logo.jpg"
-            alt="PACTSOL - Producer & Consumer Trade Solutions"
-            class="h-14 w-auto object-contain"
-    >
-
-            <p class="mt-2 text-sm text-white">
-                B2B Procurement & Supply Solutions
-            </p>
-</div>
-
-            <!-- Contact Information -->
-            <div class="text-base text-slate-300 md:text-right">
-
-                <p>
-                    Mobile:
-                    <a
-                        href="tel:+917989244563"
-                        class="font-medium text-white hover:underline"
-                    >
-                        +91 7989 244 563
-                    </a>
-                </p>
-
-                <p>
-                    Email:
-                    <a
-                        href="mailto:hello@pactsol.in"
-                        class="font-medium text-white hover:underline"
-                    >
-                        hello@pactsol.in
-                    </a>
-                </p>
-
-            </div>
-
+            <div><img src="images/logo.jpg" alt="PACTSOL - Producer & Consumer Trade Solutions" class="h-14 w-auto object-contain"><p class="mt-2 text-sm text-white">B2B Procurement &amp; Supply Solutions</p></div>
+            <div class="text-base text-slate-300 md:text-right"><p>Mobile: <a href="tel:+917989244563" class="font-medium text-white hover:underline">+91 7989 244 563</a></p><p>Email: <a href="mailto:hello@pactsol.in" class="font-medium text-white hover:underline">hello@pactsol.in</a></p></div>
         </div>
-
-
-        <!-- Copyright -->
-        <div class="mt-8 border-t border-slate-400/30 pt-5 text-xs text-slate-300">
-            © 2026 PACTSOL. All rights reserved.
-        </div>
-
+        <div class="mt-8 border-t border-slate-400/30 pt-5 text-xs text-slate-300">© 2026 PACTSOL. All rights reserved.</div>
     </div>
-
 </footer>
-
 </body>
 </html>
