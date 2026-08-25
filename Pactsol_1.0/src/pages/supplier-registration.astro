@@ -1,0 +1,17 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const tallyUrl = "https://tally.so/embed/PdQrdB?dynamicHeight=1";
+---
+
+<Layout title="Supplier Registration | PACTSOL">
+  <section class="form-page supplier-form-page">
+    <iframe
+      src={tallyUrl}
+      width="100%"
+      height="1200"
+      frameborder="0"
+      title="Supplier Registration Form"
+    ></iframe>
+  </section>
+</Layout>
