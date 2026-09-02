@@ -14,6 +14,8 @@ const {
   description =
     'PACTSOL supports businesses with selected industrial sourcing requirements, supplier coordination, and structured commercial options.',
 } = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 ---
 
 <!doctype html>
@@ -28,6 +30,56 @@ const {
 
     <meta
       name="description"
+      content={description}
+    />
+
+    <link
+      rel="canonical"
+      href={canonicalURL}
+    />
+
+    <meta
+      name="robots"
+      content="index, follow"
+    />
+
+    <meta
+      property="og:type"
+      content="website"
+    />
+
+    <meta
+      property="og:title"
+      content={title}
+    />
+
+    <meta
+      property="og:description"
+      content={description}
+    />
+
+    <meta
+      property="og:url"
+      content={canonicalURL}
+    />
+
+    <meta
+      property="og:site_name"
+      content="PACTSOL"
+    />
+
+    <meta
+      name="twitter:card"
+      content="summary"
+    />
+
+    <meta
+      name="twitter:title"
+      content={title}
+    />
+
+    <meta
+      name="twitter:description"
       content={description}
     />
 
@@ -61,31 +113,36 @@ const {
 
     <ScrollToTop />
 
-    <script is:inline src="/scripts/scroll-to-top.js"></script>
+    <script
+      is:inline
+      src="/scripts/scroll-to-top.js"
+    ></script>
 
     <script>
-  const isProductionHost =
-    window.location.hostname === 'pactsol.in' ||
-    window.location.hostname === 'www.pactsol.in';
+      const isProductionHost =
+        window.location.hostname === 'pactsol.in' ||
+        window.location.hostname === 'www.pactsol.in';
 
-  if (isProductionHost) {
-    document.addEventListener('contextmenu', (event) => {
-      event.preventDefault();
-    });
+      if (isProductionHost) {
+        document.addEventListener('contextmenu', (event) => {
+          event.preventDefault();
+        });
 
-    document.addEventListener('keydown', (event) => {
-      const key = event.key.toLowerCase();
+        document.addEventListener('keydown', (event) => {
+          const key = event.key.toLowerCase();
 
-      const devToolsShortcut =
-        event.key === 'F12' ||
-        (event.ctrlKey && event.shiftKey && ['i', 'j', 'c'].includes(key)) ||
-        (event.ctrlKey && key === 'u');
+          const devToolsShortcut =
+            event.key === 'F12' ||
+            (event.ctrlKey &&
+              event.shiftKey &&
+              ['i', 'j', 'c'].includes(key)) ||
+            (event.ctrlKey && key === 'u');
 
-      if (devToolsShortcut) {
-        event.preventDefault();
+          if (devToolsShortcut) {
+            event.preventDefault();
+          }
+        });
       }
-    });
-  }
-</script>
+    </script>
   </body>
 </html>
