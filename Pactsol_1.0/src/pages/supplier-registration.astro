@@ -4,8 +4,39 @@ import Layout from '../layouts/Layout.astro';
 const tallyUrl = 'https://tally.so/embed/PdQrdB?dynamicHeight=1';
 ---
 
-<Layout title="Supplier Registration | PACTSOL">
-  <section class="form-page supplier-form-page">
+<Layout
+  title="Supplier Registration | PACTSOL"
+  description="Register supplier capabilities with PACTSOL for consideration against relevant industrial sourcing requirements."
+>
+  <section
+    class="form-page supplier-form-page"
+    aria-labelledby="supplier-registration-heading"
+  >
+    <header class="form-page__header">
+      <p class="form-page__eyebrow">
+        Supplier Capability Registration
+      </p>
+
+      <h1 id="supplier-registration-heading">
+        Supplier Registration
+      </h1>
+
+      <p
+        id="supplier-registration-description"
+        class="form-page__intro"
+      >
+        Share your business and supplier capability information for review by
+        PACTSOL and consideration against relevant sourcing requirements where
+        appropriate.
+      </p>
+
+      <p class="form-page__field-summary">
+        The registration form asks for organisation and contact details together
+        with relevant supplier capability and product information needed for the
+        initial review.
+      </p>
+    </header>
+
     <div class="form-page__privacy-notice">
       <p>
         By submitting this form, you provide PACTSOL with business contact and
@@ -21,17 +52,95 @@ const tallyUrl = 'https://tally.so/embed/PdQrdB?dynamicHeight=1';
       </p>
     </div>
 
-    <iframe
-      data-tally-src={tallyUrl}
-      loading="lazy"
-      width="100%"
-      height="200"
-      title="Supplier Registration Form"
-    ></iframe>
+    <div class="form-page__embed">
+      <iframe
+        src={tallyUrl}
+        data-tally-src={tallyUrl}
+        width="100%"
+        height="200"
+        title="PACTSOL Supplier Registration form"
+        aria-describedby="supplier-registration-description supplier-registration-fallback"
+      ></iframe>
 
-    <script
-      is:inline
-      src="https://tally.so/widgets/embed.js"
-    ></script>
+      <script
+        is:inline
+        src="https://tally.so/widgets/embed.js"
+      ></script>
+
+      <p
+        id="supplier-registration-fallback"
+        class="form-page__fallback"
+      >
+        If the embedded form does not load, you can
+        <a
+          href={tallyUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+        >open the Supplier Registration form directly</a>.
+      </p>
+    </div>
   </section>
+
+  <style>
+    .form-page__header {
+      max-width: 820px;
+      margin-bottom: 28px;
+    }
+
+    .form-page__eyebrow {
+      margin: 0 0 10px;
+      color: var(--color-accent);
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .form-page__header h1 {
+      margin: 0;
+      color: var(--color-primary);
+      font-size: clamp(2.2rem, 5vw, 3.25rem);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+    }
+
+    .form-page__intro,
+    .form-page__field-summary {
+      max-width: 760px;
+      color: var(--color-text);
+      line-height: 1.75;
+    }
+
+    .form-page__intro {
+      margin: 18px 0 0;
+      font-size: 1.02rem;
+    }
+
+    .form-page__field-summary {
+      margin: 14px 0 0;
+      font-size: 0.95rem;
+    }
+
+    .form-page__embed {
+      margin-top: 24px;
+    }
+
+    .form-page__fallback {
+      margin: 16px 0 0;
+      color: var(--color-text);
+      font-size: 0.92rem;
+      line-height: 1.6;
+    }
+
+    .form-page__fallback a {
+      color: var(--color-primary);
+      font-weight: 700;
+    }
+
+    @media (max-width: 600px) {
+      .form-page__header {
+        margin-bottom: 22px;
+      }
+    }
+  </style>
 </Layout>
