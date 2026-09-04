@@ -100,6 +100,12 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     />
 
     <title>{title}</title>
+
+    <style is:global>
+      .legal-page__notice > strong {
+        margin-right: 0.25em;
+      }
+    </style>
   </head>
 
   <body>

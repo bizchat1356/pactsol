@@ -1,14 +1,12 @@
 ---
 import Layout from '../layouts/Layout.astro';
 
-const tallyUrl = "https://tally.so/embed/lb2Mko?dynamicHeight=1";
-
+const tallyUrl = 'https://tally.so/embed/lb2Mko?dynamicHeight=1';
 ---
 
 <Layout title="Request a Quote | PACTSOL">
   <section class="form-page">
-
-     <div class="form-page__privacy-notice">
+    <div class="form-page__privacy-notice">
       <p>
         By submitting this form, you provide PACTSOL with business contact and
         sourcing information so that we can review your requirement, communicate
@@ -24,11 +22,16 @@ const tallyUrl = "https://tally.so/embed/lb2Mko?dynamicHeight=1";
     </div>
 
     <iframe
-      src={tallyUrl}
+      data-tally-src={tallyUrl}
+      loading="lazy"
       width="100%"
-      height="1200"
-      frameborder="0"
+      height="200"
       title="Request a Quote Form"
     ></iframe>
+
+    <script
+      is:inline
+      src="https://tally.so/widgets/embed.js"
+    ></script>
   </section>
 </Layout>

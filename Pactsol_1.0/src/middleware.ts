@@ -25,7 +25,7 @@ export const onRequest = defineMiddleware(async (_context, next) => {
       "img-src 'self' data:",
       "font-src 'self'",
       "style-src 'self' 'unsafe-inline'",
-      "script-src 'self' 'unsafe-inline'",
+      "script-src 'self' 'unsafe-inline' https://tally.so",
       "connect-src 'self'",
       "frame-src https://tally.so",
       'upgrade-insecure-requests',

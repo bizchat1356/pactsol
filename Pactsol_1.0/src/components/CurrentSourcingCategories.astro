@@ -122,7 +122,10 @@ const sourcingCategories = [
 
             <div class="sourcing-card__inner">
 
-              <div class="sourcing-card__face sourcing-card__front">
+              <div
+                class="sourcing-card__face sourcing-card__front"
+                aria-hidden="false"
+              >
 
                 <div class="sourcing-card__content">
 
@@ -142,8 +145,9 @@ const sourcingCategories = [
 
                 <button
                   type="button"
-                  class="sourcing-card__toggle"
+                  class="sourcing-card__toggle sourcing-card__toggle--front"
                   aria-expanded="false"
+                  aria-controls={`sourcing-card-details-${category.number}`}
                   aria-label={`View product families for ${category.title}`}
                 >
                   <span>View product families</span>
@@ -152,21 +156,26 @@ const sourcingCategories = [
 
               </div>
 
-              <div class="sourcing-card__face sourcing-card__back">
+              <div
+                id={`sourcing-card-details-${category.number}`}
+                class="sourcing-card__face sourcing-card__back"
+                aria-hidden="true"
+                inert
+              >
 
                 <div class="sourcing-card__content">
 
                   <p class="sourcing-card__number">
-  {category.number}
-</p>
+                    {category.number}
+                  </p>
 
-<p class="sourcing-card__back-label">
-  Selected Product Families
-</p>
+                  <p class="sourcing-card__back-label">
+                    Selected Product Families
+                  </p>
 
-<h3>
-  {category.title}
-</h3>
+                  <h3>
+                    {category.title}
+                  </h3>
 
                   <ul>
                     {
@@ -183,7 +192,6 @@ const sourcingCategories = [
                   <button
                     type="button"
                     class="sourcing-card__toggle sourcing-card__toggle--back"
-                    aria-expanded="true"
                     aria-label={`Return to ${category.title}`}
                   >
                     <span aria-hidden="true">←</span>
@@ -234,21 +242,48 @@ const sourcingCategories = [
         return;
       }
 
+      const front = card.querySelector<HTMLElement>('.sourcing-card__front');
+      const back = card.querySelector<HTMLElement>('.sourcing-card__back');
+      const frontToggle = card.querySelector<HTMLButtonElement>(
+        '.sourcing-card__toggle--front'
+      );
+      const backToggle = card.querySelector<HTMLButtonElement>(
+        '.sourcing-card__toggle--back'
+      );
+
+      if (!front || !back || !frontToggle || !backToggle) {
+        return;
+      }
+
       card.dataset.initialized = 'true';
 
-      const toggleButtons = card.querySelectorAll('.sourcing-card__toggle');
+      const setFlippedState = (isFlipped: boolean, moveFocus = false) => {
+        card.classList.toggle('is-flipped', isFlipped);
 
-      toggleButtons.forEach((button) => {
-        button.addEventListener('click', () => {
-          const isFlipped = card.classList.toggle('is-flipped');
+        front.setAttribute('aria-hidden', isFlipped ? 'true' : 'false');
+        back.setAttribute('aria-hidden', isFlipped ? 'false' : 'true');
 
-          toggleButtons.forEach((toggleButton) => {
-            toggleButton.setAttribute(
-              'aria-expanded',
-              isFlipped ? 'true' : 'false'
-            );
-          });
-        });
+        front.toggleAttribute('inert', isFlipped);
+        back.toggleAttribute('inert', !isFlipped);
+
+        frontToggle.setAttribute(
+          'aria-expanded',
+          isFlipped ? 'true' : 'false'
+        );
+
+        if (moveFocus) {
+          (isFlipped ? backToggle : frontToggle).focus();
+        }
+      };
+
+      setFlippedState(false);
+
+      frontToggle.addEventListener('click', () => {
+        setFlippedState(true, true);
+      });
+
+      backToggle.addEventListener('click', () => {
+        setFlippedState(false, true);
       });
     });
   }
@@ -299,11 +334,11 @@ const sourcingCategories = [
     gap: 1.4rem;
   }
 
- .sourcing-card {
-  min-width: 0;
-  min-height: 520px;
-  perspective: 1200px;
-}
+  .sourcing-card {
+    min-width: 0;
+    min-height: 520px;
+    perspective: 1200px;
+  }
 
   .sourcing-card__inner {
     position: relative;
@@ -363,14 +398,14 @@ const sourcingCategories = [
     line-height: 1.7;
   }
 
- .sourcing-card__back-label {
-  margin: 0 0 0.55rem;
-  color: #57643a;
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
+  .sourcing-card__back-label {
+    margin: 0 0 0.55rem;
+    color: #57643a;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
 
   .sourcing-card ul {
     margin: 0;
@@ -414,7 +449,6 @@ const sourcingCategories = [
     color: #ffffff;
   }
 
-  .sourcing-card__toggle:focus-visible,
   .sourcing-card__toggle:focus-visible {
     outline: 3px solid rgba(82, 113, 138, 0.35);
     outline-offset: 3px;
@@ -425,11 +459,6 @@ const sourcingCategories = [
     flex-direction: column;
     gap: 0.75rem;
     margin-top: 1.25rem;
-  }
-
-
-  .sourcing-card__actions a:hover {
-    background: #092b47;
   }
 
   .sourcing-card__toggle--back {
@@ -448,7 +477,6 @@ const sourcingCategories = [
     border-top: 1px solid #d8dccf;
   }
 
-
   .sourcing-categories__footer p {
     max-width: 720px;
     margin: 0;
@@ -463,24 +491,25 @@ const sourcingCategories = [
     text-decoration: none;
   }
 
-
   .sourcing-categories__footer > a:hover {
     text-decoration: underline;
   }
   */
- @media (hover: hover) and (pointer: fine) {
-  .sourcing-card:hover .sourcing-card__face {
-    box-shadow: 0 12px 24px rgba(11, 53, 88, 0.1);
+
+  @media (hover: hover) and (pointer: fine) {
+    .sourcing-card:hover .sourcing-card__face {
+      box-shadow: 0 12px 24px rgba(11, 53, 88, 0.1);
+    }
+
+    .sourcing-card:not(.is-flipped):hover .sourcing-card__inner {
+      transform: translateY(-4px);
+    }
+
+    .sourcing-card.is-flipped:hover .sourcing-card__inner {
+      transform: translateY(-4px) rotateY(180deg);
+    }
   }
 
-  .sourcing-card:not(.is-flipped):hover .sourcing-card__inner {
-    transform: translateY(-4px);
-  }
-
-  .sourcing-card.is-flipped:hover .sourcing-card__inner {
-    transform: translateY(-4px) rotateY(180deg);
-  }
-}
   @media (max-width: 960px) {
     .sourcing-categories__grid {
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -508,15 +537,8 @@ const sourcingCategories = [
     .sourcing-card__face {
       padding: 1.4rem;
     }
-
-    /*
-    .sourcing-categories__footer {
-      align-items: flex-start;
-      flex-direction: column;
-      gap: 1rem;
-    }
   }
-    */
+
   @media (prefers-reduced-motion: reduce) {
     .sourcing-card__inner {
       transition: none;
