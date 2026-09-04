@@ -21,6 +21,30 @@
         can be offered.
       </p>
 
+      <div
+        id="contact"
+        class="home-final-cta__contact"
+        aria-label="PACTSOL direct contact details"
+      >
+        <span class="home-final-cta__contact-heading">
+          Direct Contact
+        </span>
+
+        <span class="home-final-cta__contact-row">
+          <strong>Email:</strong>
+          <a href="mailto:hello@pactsol.in">
+            hello@pactsol.in
+          </a>
+        </span>
+
+        <span class="home-final-cta__contact-row">
+          <strong>Telephone:</strong>
+          <a href="tel:+917989244563">
+            +91 7989 244 563
+          </a>
+        </span>
+      </div>
+
       <a
         class="home-final-cta__primary"
         href="/request-quote"
@@ -65,6 +89,43 @@
   </div>
 </section>
 
+<style>
+  .home-final-cta__contact {
+    display: grid;
+    gap: 6px;
+    max-width: 420px;
+    margin-top: 22px;
+    padding: 16px 18px;
+    border: 1px solid var(--color-light);
+    border-radius: 6px;
+    background: var(--color-white);
+    color: var(--color-text);
+  }
 
+  .home-final-cta__contact-heading {
+    margin-bottom: 2px;
+    color: var(--color-primary);
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
 
+  .home-final-cta__contact-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3em;
+    line-height: 1.6;
+  }
 
+  .home-final-cta__contact-row a {
+    color: var(--color-primary);
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .home-final-cta__contact-row a:hover,
+  .home-final-cta__contact-row a:focus-visible {
+    text-decoration: underline;
+  }
+</style>
