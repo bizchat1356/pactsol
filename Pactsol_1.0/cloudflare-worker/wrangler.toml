@@ -1,3 +1,8 @@
-name = "pactsol-tally-notifications"
+name = "pactsol-tally-notifications-dev"
 main = "pactsol-tally-notifications.js"
 compatibility_date = "2026-08-25"
+
+[[d1_databases]]
+binding = "PACTSOL_DB"
+database_name = "pactsol-operations-dev"
+database_id = "3bb9393e-2442-46b8-8a1c-a452f9a0cb89"
