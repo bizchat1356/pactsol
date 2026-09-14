@@ -1,0 +1,17 @@
+CREATE TABLE organizations (id TEXT PRIMARY KEY, name TEXT NOT NULL, created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP);
+CREATE UNIQUE INDEX idx_organizations_name_ci ON organizations(name COLLATE NOCASE);
+CREATE TABLE contacts (id TEXT PRIMARY KEY, organization_id TEXT REFERENCES organizations(id), full_name TEXT, email TEXT, phone_e164 TEXT, created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP, CHECK (email IS NOT NULL OR phone_e164 IS NOT NULL), UNIQUE(email), UNIQUE(phone_e164));
+CREATE TABLE catalog_categories (id INTEGER PRIMARY KEY, name TEXT NOT NULL UNIQUE, sort_order INTEGER NOT NULL DEFAULT 0, active INTEGER NOT NULL DEFAULT 1 CHECK (active IN (0, 1)));
+CREATE TABLE catalog_products (id INTEGER PRIMARY KEY, category_id INTEGER NOT NULL REFERENCES catalog_categories(id), name TEXT NOT NULL, sort_order INTEGER NOT NULL DEFAULT 0, active INTEGER NOT NULL DEFAULT 1 CHECK (active IN (0, 1)), UNIQUE(category_id, name));
+CREATE TABLE requirement_counters (intake_channel TEXT PRIMARY KEY CHECK (intake_channel IN ('web', 'whatsapp')), last_value INTEGER NOT NULL DEFAULT 0);
+INSERT INTO requirement_counters (intake_channel, last_value) VALUES ('web', 0), ('whatsapp', 0);
+CREATE TABLE requirements (id TEXT PRIMARY KEY, requirement_code TEXT NOT NULL UNIQUE, intake_channel TEXT NOT NULL CHECK (intake_channel IN ('web', 'whatsapp')), source_reference TEXT, organization_id TEXT REFERENCES organizations(id), contact_id TEXT REFERENCES contacts(id), status TEXT NOT NULL DEFAULT 'received' CHECK (status IN ('received', 'details_pending', 'under_review', 'supplier_discussion', 'quote_ready', 'customer_review', 'confirmed', 'vendor_processing', 'closed')), specification TEXT, delivery_location TEXT, required_by TEXT, created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP, updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP, UNIQUE(intake_channel, source_reference));
+CREATE TABLE requirement_items (id INTEGER PRIMARY KEY, requirement_id TEXT NOT NULL REFERENCES requirements(id), category_id INTEGER REFERENCES catalog_categories(id), product_id INTEGER REFERENCES catalog_products(id), product_description TEXT NOT NULL, quantity REAL, uom TEXT);
+CREATE TABLE requirement_status_history (id INTEGER PRIMARY KEY, requirement_id TEXT NOT NULL REFERENCES requirements(id), status TEXT NOT NULL, note TEXT, changed_by TEXT NOT NULL DEFAULT 'system', created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP);
+CREATE TABLE whatsapp_sessions (phone_e164 TEXT PRIMARY KEY, contact_id TEXT REFERENCES contacts(id), current_step TEXT NOT NULL, draft_json TEXT NOT NULL DEFAULT '{}', updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP);
+CREATE TABLE notification_log (id INTEGER PRIMARY KEY, requirement_id TEXT NOT NULL REFERENCES requirements(id), channel TEXT NOT NULL CHECK (channel IN ('email', 'whatsapp')), event_type TEXT NOT NULL, status TEXT NOT NULL DEFAULT 'queued' CHECK (status IN ('queued', 'sent', 'failed')), provider_message_id TEXT, created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP, sent_at TEXT);
+CREATE INDEX idx_requirements_status_created ON requirements(status, created_at DESC);
+CREATE INDEX idx_requirements_channel_created ON requirements(intake_channel, created_at DESC);
+CREATE INDEX idx_requirement_items_requirement ON requirement_items(requirement_id);
+CREATE INDEX idx_requirement_history_requirement ON requirement_status_history(requirement_id, created_at DESC);
+CREATE INDEX idx_notification_pending ON notification_log(status, created_at);

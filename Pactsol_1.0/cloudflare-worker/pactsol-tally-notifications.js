@@ -153,13 +153,33 @@ export default {
       const submitterEmail =
         getSubmitterEmail(fields);
 
-      const pactsolReference =
-  createPACTSOLReference(companyName);
+      const tallySubmissionReference =
+        submission.submissionId ||
+        submission.responseId ||
+        null;
 
-const tallySubmissionReference =
-  submission.submissionId ||
-  submission.responseId ||
-  'Not available';
+      const storedRequirement =
+        payloadFormType === 'buyer'
+          ? await persistBuyerRequirement(
+              env.PACTSOL_DB,
+              fields,
+              tallySubmissionReference
+            )
+          : null;
+
+      const storedSupplier =
+        payloadFormType === 'supplier'
+          ? await persistSupplierProfile(
+              env.PACTSOL_DB,
+              fields,
+              tallySubmissionReference
+            )
+          : null;
+
+      const pactsolReference =
+        storedRequirement?.requirementCode ||
+        storedSupplier?.supplierReference ||
+        createPACTSOLReference(companyName);
 
 const submittedAt =
   submission.createdAt ||
@@ -233,7 +253,7 @@ const submittedAt =
           ],
 
           bcc: [
-            'pactsol.biz@gmail.com',
+            'pactsol@outlook.com',
           ],
 
           reply_to:
@@ -305,7 +325,7 @@ ${escapeHtml(pactsolReference)}
 
 <p>
   <strong>Tally Submission Reference:</strong>
-  ${escapeHtml(tallySubmissionReference)}
+  ${escapeHtml(tallySubmissionReference || 'Not available')}
 </p>
 </p>
 
@@ -359,7 +379,7 @@ ${escapeHtml(submittedAt)}
             'PACTSOL <notifications@pactsol.in>',
 
           to: [
-            'pactsol.biz@gmail.com',
+            'pactsol@outlook.com',
           ],
 
           reply_to:
@@ -400,7 +420,7 @@ subject:
 
 <p>
   <strong>Tally Submission Reference:</strong>
-  ${escapeHtml(tallySubmissionReference)}
+  ${escapeHtml(tallySubmissionReference || 'Not available')}
 </p>
 
 <p>
@@ -464,6 +484,15 @@ subject:
         );
 
       if (!resendResponse.ok) {
+        if (storedRequirement) {
+          await recordNotification(
+            env.PACTSOL_DB,
+            storedRequirement.id,
+            'tally_acknowledgement',
+            'failed'
+          );
+        }
+
         console.error(
           'Resend API request failed:',
           resendResponse.status,
@@ -475,6 +504,15 @@ subject:
         return textResponse(
           'Email delivery failed',
           502
+        );
+      }
+
+      if (storedRequirement) {
+        await recordNotification(
+          env.PACTSOL_DB,
+          storedRequirement.id,
+          'tally_acknowledgement',
+          'sent'
         );
       }
 
@@ -537,6 +575,66 @@ subject:
     }
   },
 };
+
+
+async function persistBuyerRequirement(db, fields, tallySubmissionReference) {
+  if (!db) throw new Error('PACTSOL_DB binding is not configured.');
+  if (tallySubmissionReference) {
+    const existing = await db.prepare(`SELECT id, requirement_code FROM requirements WHERE intake_channel = 'web' AND source_reference = ?`).bind(tallySubmissionReference).first();
+    if (existing) return { id: existing.id, requirementCode: existing.requirement_code };
+  }
+  const companyName = getFieldValue(fields, 'Company / Organization Name') || 'Unknown organization';
+  const contactName = getFieldValue(fields, 'Contact Person Name');
+  const email = getFieldValue(fields, 'Email');
+  const phone = normalizeIndianPhone(getFieldValue(fields, 'Mobile Number'));
+  const productDescription = getFieldValue(fields, 'Product / Material Required') || [getFieldValue(fields, 'Sourcing Category'), getFieldValue(fields, 'Selected Product Family')].filter(Boolean).join(' — ') || 'Product details not provided';
+  const quantity = parseQuantity(getFieldValue(fields, 'Quantity Required'));
+  const organization = await db.prepare(`SELECT id FROM organizations WHERE name = ? COLLATE NOCASE`).bind(companyName).first();
+  const organizationId = organization?.id || crypto.randomUUID();
+  if (!organization) await db.prepare(`INSERT INTO organizations (id, name) VALUES (?, ?)`).bind(organizationId, companyName).run();
+  const contact = await db.prepare(`SELECT id FROM contacts WHERE email = ? OR phone_e164 = ?`).bind(email, phone).first();
+  const contactId = contact?.id || crypto.randomUUID();
+  if (!contact) await db.prepare(`INSERT INTO contacts (id, organization_id, full_name, email, phone_e164) VALUES (?, ?, ?, ?, ?)`).bind(contactId, organizationId, contactName, email, phone).run();
+  const counter = await db.prepare(`UPDATE requirement_counters SET last_value = last_value + 1 WHERE intake_channel = 'web' RETURNING last_value`).first();
+  if (!counter) throw new Error('Web requirement counter is unavailable.');
+  const requirementId = crypto.randomUUID();
+  const requirementCode = createRequirementCode('WB', counter.last_value);
+  await db.batch([
+    db.prepare(`INSERT INTO requirements (id, requirement_code, intake_channel, source_reference, organization_id, contact_id, specification, delivery_location, required_by) VALUES (?, ?, 'web', ?, ?, ?, ?, ?, ?)`).bind(requirementId, requirementCode, tallySubmissionReference, organizationId, contactId, getFieldValue(fields, 'Additional Information'), getFieldValue(fields, 'Delivery Location'), getFieldValue(fields, 'Required Delivery Date')),
+    db.prepare(`INSERT INTO requirement_items (requirement_id, product_description, quantity, uom) VALUES (?, ?, ?, ?)`).bind(requirementId, productDescription, quantity.value, quantity.unit),
+    db.prepare(`INSERT INTO requirement_status_history (requirement_id, status, note) VALUES (?, 'received', ?)`).bind(requirementId, 'Received through the PACTSOL web enquiry form.'),
+  ]);
+  return { id: requirementId, requirementCode };
+}
+
+async function persistSupplierProfile(db, fields, tallySubmissionReference) {
+  if (!db) throw new Error('PACTSOL_DB binding is not configured.');
+  const sourceReference = tallySubmissionReference || `unreferenced-${crypto.randomUUID()}`;
+  const existing = await db.prepare(`SELECT id, supplier_reference FROM supplier_profiles WHERE source_reference = ?`).bind(sourceReference).first();
+  if (existing) return { id: existing.id, supplierReference: existing.supplier_reference };
+  const supplierId = crypto.randomUUID();
+  const supplierReference = `SUP_PACT_${supplierId.replace(/-/g, '').slice(0, 12).toUpperCase()}`;
+  await db.prepare(`INSERT INTO supplier_profiles (id, source_reference, supplier_reference, company_name, contact_name, email, phone_e164, product_description, supply_capacity, lead_time, supply_location, notes) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`).bind(supplierId, sourceReference, supplierReference, getFieldValue(fields, 'Company / Organization Name') || 'Unknown supplier', getFieldValue(fields, 'Contact Person Name'), getFieldValue(fields, 'Email'), normalizeIndianPhone(getFieldValue(fields, 'Mobile Number')), getFieldValue(fields, 'Product / Material Supplied'), getFieldValue(fields, 'Supply Capacity'), getFieldValue(fields, 'Lead Time / Availability'), getFieldValue(fields, 'Supply Location'), getFieldValue(fields, 'Additional Information')).run();
+  return { id: supplierId, supplierReference };
+}
+
+async function recordNotification(db, requirementId, eventType, status) {
+  await db.prepare(`INSERT INTO notification_log (requirement_id, channel, event_type, status, sent_at) VALUES (?, 'email', ?, ?, CASE WHEN ? = 'sent' THEN CURRENT_TIMESTAMP ELSE NULL END)`).bind(requirementId, eventType, status, status).run();
+}
+
+function normalizeIndianPhone(value) {
+  if (!value) return null;
+  const digits = String(value).replace(/\D/g, '');
+  if (digits.length === 10) return `+91${digits}`;
+  return digits.length >= 11 ? `+${digits}` : null;
+}
+
+function parseQuantity(value) {
+  const rawValue = String(value || '').trim();
+  const match = rawValue.match(/^(\d+(?:\.\d+)?)\s*(.*)$/);
+  if (!match) return { value: null, unit: rawValue || null };
+  return { value: Number(match[1]), unit: match[2].trim() || null };
+}
 
 
 class PayloadTooLargeError
@@ -1113,4 +1211,13 @@ function timingSafeEqual(
   }
 
   return result === 0;
+}
+
+function createRequirementCode(channelCode, sequence, createdAt = new Date()) {
+  const dateParts = new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Kolkata', day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit', hourCycle: 'h23' }).formatToParts(createdAt).reduce((parts, part) => {
+    if (part.type !== 'literal') parts[part.type] = part.value;
+    return parts;
+  }, {});
+  const timestamp = [dateParts.day, dateParts.month.toUpperCase().slice(0, 3), dateParts.year, `${dateParts.hour}_${dateParts.minute}_${dateParts.second}`].join('-');
+  return `REQ_PACT_${channelCode}_${String(sequence).padStart(3, '0')}_${timestamp}`;
 }
