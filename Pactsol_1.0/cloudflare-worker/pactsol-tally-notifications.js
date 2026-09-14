@@ -167,8 +167,18 @@ export default {
             )
           : null;
 
+      const storedSupplier =
+        payloadFormType === 'supplier'
+          ? await persistSupplierProfile(
+              env.PACTSOL_DB,
+              fields,
+              tallySubmissionReference
+            )
+          : null;
+
       const pactsolReference =
         storedRequirement?.requirementCode ||
+        storedSupplier?.supplierReference ||
         createPACTSOLReference(companyName);
 
 const submittedAt =
@@ -729,6 +739,72 @@ async function persistBuyerRequirement(
   ]);
 
   return { id: requirementId, requirementCode };
+}
+
+
+async function persistSupplierProfile(
+  db,
+  fields,
+  tallySubmissionReference
+) {
+  if (!db) {
+    throw new Error('PACTSOL_DB binding is not configured.');
+  }
+
+  const sourceReference =
+    tallySubmissionReference ||
+    `unreferenced-${crypto.randomUUID()}`;
+
+  const existing = await db
+    .prepare(
+      `SELECT id, supplier_reference
+       FROM supplier_profiles
+       WHERE source_reference = ?`
+    )
+    .bind(sourceReference)
+    .first();
+
+  if (existing) {
+    return {
+      id: existing.id,
+      supplierReference: existing.supplier_reference,
+    };
+  }
+
+  const supplierId = crypto.randomUUID();
+  const companyName =
+    getFieldValue(fields, 'Company / Organization Name') ||
+    'Unknown supplier';
+  const supplierReference =
+    `SUP_PACT_${supplierId.replace(/-/g, '').slice(0, 12).toUpperCase()}`;
+
+  await db
+    .prepare(
+      `INSERT INTO supplier_profiles (
+         id, source_reference, supplier_reference, company_name,
+         contact_name, email, phone_e164, product_description,
+         supply_capacity, lead_time, supply_location, notes
+       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+    )
+    .bind(
+      supplierId,
+      sourceReference,
+      supplierReference,
+      companyName,
+      getFieldValue(fields, 'Contact Person Name'),
+      getFieldValue(fields, 'Email'),
+      normalizeIndianPhone(
+        getFieldValue(fields, 'Mobile Number')
+      ),
+      getFieldValue(fields, 'Product / Material Supplied'),
+      getFieldValue(fields, 'Supply Capacity'),
+      getFieldValue(fields, 'Lead Time / Availability'),
+      getFieldValue(fields, 'Supply Location'),
+      getFieldValue(fields, 'Additional Information')
+    )
+    .run();
+
+  return { id: supplierId, supplierReference };
 }
 
 
