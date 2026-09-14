@@ -604,8 +604,15 @@ async function persistBuyerRequirement(
   const phone = normalizeIndianPhone(
     getFieldValue(fields, 'Mobile Number')
   );
+  const sourcingCategory =
+    getFieldValue(fields, 'Sourcing Category');
+  const selectedProductFamily =
+    getFieldValue(fields, 'Selected Product Family');
   const productDescription =
     getFieldValue(fields, 'Product / Material Required') ||
+    [sourcingCategory, selectedProductFamily]
+      .filter(Boolean)
+      .join(' — ') ||
     'Product details not provided';
   const quantity = parseQuantity(
     getFieldValue(fields, 'Quantity Required')
