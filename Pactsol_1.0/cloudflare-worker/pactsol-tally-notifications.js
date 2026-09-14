@@ -673,8 +673,10 @@ async function persistBuyerRequirement(
   }
 
   const requirementId = crypto.randomUUID();
-  const requirementCode =
-    `REQ_PACT_WB_${String(counter.last_value).padStart(3, '0')}`;
+  const requirementCode = createRequirementCode(
+    'WB',
+    counter.last_value
+  );
 
   await db.batch([
     db
@@ -1347,4 +1349,45 @@ function timingSafeEqual(
   }
 
   return result === 0;
+}
+
+
+function createRequirementCode(
+  channelCode,
+  sequence,
+  createdAt = new Date()
+) {
+  const dateParts = new Intl.DateTimeFormat(
+    'en-GB',
+    {
+      timeZone: 'Asia/Kolkata',
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hourCycle: 'h23',
+    }
+  )
+    .formatToParts(createdAt)
+    .reduce(
+      (parts, part) => {
+        if (part.type !== 'literal') {
+          parts[part.type] = part.value;
+        }
+
+        return parts;
+      },
+      {}
+    );
+
+  const timestamp = [
+    dateParts.day,
+    dateParts.month.toUpperCase().slice(0, 3),
+    dateParts.year,
+    `${dateParts.hour}_${dateParts.minute}_${dateParts.second}`,
+  ].join('-');
+
+  return `REQ_PACT_${channelCode}_${String(sequence).padStart(3, '0')}_${timestamp}`;
 }
