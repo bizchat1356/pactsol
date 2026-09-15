@@ -1,0 +1,18 @@
+name = "pactsol-whatsapp-requirements-dev"
+main = "pactsol-whatsapp-requirements.js"
+compatibility_date = "2026-09-15"
+keep_vars = true
+
+[vars]
+WHATSAPP_PHONE_NUMBER_ID = "1316866128175800"
+
+[observability]
+enabled = true
+
+[observability.logs]
+invocation_logs = true
+
+[[d1_databases]]
+binding = "PACTSOL_DB"
+database_name = "pactsol-operations-dev"
+database_id = "3bb9393e-2442-46b8-8a1c-a452f9a0cb89"
