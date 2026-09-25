@@ -24,3 +24,8 @@ pnpm-debug.log*
 .idea/
 
 .wrangler
+
+# Isolated website builds
+dist-dual/
+dist-portal/
+dist-software/

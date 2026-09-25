@@ -1,32 +1,12 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import HomeHero from '../components/HomeHero.astro';
-import WhatPactsolDoes from '../components/WhatPactsolDoes.astro';
-import CurrentSourcingCategories from '../components/CurrentSourcingCategories.astro';
-import HowItWorksOverview from '../components/HowItWorksOverview.astro';
-import WhyBusinessesUsePactsol from '../components/WhyBusinessesUsePactsol.astro';
-import HowPactsolCharges from '../components/HowPactsolCharges.astro';
-import HomeFaqOverview from '../components/HomeFaqOverview.astro';
-import HomeFinalCta from '../components/HomeFinalCta.astro';
+import { links } from '../lib/business-links';
 ---
-
-<Layout
-  title="PACTSOL | Managed B2B Sourcing"
-  description="PACTSOL supports businesses with selected industrial sourcing requirements, supplier coordination, and structured commercial options."
->
-  <HomeHero />
-
-  <WhatPactsolDoes />
-
-  <CurrentSourcingCategories />
-
-  <HowItWorksOverview />
-
-  <WhyBusinessesUsePactsol />
-
-  <HowPactsolCharges />
-
-  <HomeFaqOverview />
-
-  <HomeFinalCta />
+<Layout title="PACTSOL | B2B Sourcing & Software Consultancy" description="Explore managed industrial sourcing and independent AI and software quality assessments from PACTSOL, Hyderabad.">
+<section class="business-hero"><div class="site-container"><p class="business-eyebrow">PACTSOL · Hyderabad, India</p><h1>Practical support.<br /><span>For your next business decision.</span></h1><p class="business-intro">Find the right supply options. Understand how your software performs. Choose the service that fits your requirement.</p><a class="business-text-link" href="#services">Explore our services ↓</a></div></section>
+<section class="business-section" id="services"><div class="site-container"><p class="business-eyebrow">Choose your service</p><div class="business-grid">
+<article class="business-card sourcing-card"><span class="business-number">01 / INDUSTRIAL SOURCING</span><h2>Products your<br />business needs.</h2><p>Managed sourcing support for packaging, industrial consumables and selected maintenance requirements.</p><ul><li>Requirement and specification review</li><li>Supplier coordination and commercial options</li><li>Buyer enquiries and supplier registration</li></ul><a class="business-button" href={links.sourcing}>Explore B2B sourcing <span aria-hidden="true">↗</span></a></article>
+<article class="business-card software-card"><span class="business-number">02 / SOFTWARE CONSULTANCY</span><h2>Evidence behind<br />software quality.</h2><p>Focused assessments of AI responses, retrieval quality and software behaviour, with findings your team can use.</p><ul><li>LLM and RAG evaluation</li><li>Prompt regression assessments</li><li>Scoped API and functional quality reviews</li></ul><a class="business-button" href={links.software}>Explore software consultancy <span aria-hidden="true">↗</span></a></article>
+</div></div></section>
+<section class="business-section business-soft"><div class="site-container business-split"><div><p class="business-eyebrow">A clear way to work</p><h2>Start with the requirement.<br />Agree the next step.</h2></div><div><p>Every enquiry starts with a review of what you need. We agree the scope, commercial terms and expected outcome before work begins.</p><p>For industrial requirements, share specifications and quantities. For software assessments, share a non-confidential summary of the application and what you want to evaluate.</p><a class="business-text-link" href="mailto:hello@pactsol.in">Discuss your requirement →</a></div></div></section>
 </Layout>

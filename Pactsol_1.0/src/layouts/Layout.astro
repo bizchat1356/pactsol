@@ -10,12 +10,14 @@ interface Props {
 }
 
 const {
-  title = 'PACTSOL | Managed B2B Sourcing',
+  title = 'PACTSOL | Sourcing & Software Consultancy',
   description =
-    'PACTSOL supports businesses with selected industrial sourcing requirements, supplier coordination, and structured commercial options.',
+    'PACTSOL provides managed industrial sourcing and scoped software quality assessments.',
 } = Astro.props;
 
-const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const isSoftware = Astro.url.pathname.startsWith('/software');
+const canonicalBase = (isSoftware ? import.meta.env.PUBLIC_SOFTWARE_ORIGIN : import.meta.env.PUBLIC_PORTAL_ORIGIN) || Astro.site;
+const canonicalURL = new URL(Astro.url.pathname === "/404/" ? "/404.html" : Astro.url.pathname, canonicalBase);
 ---
 
 <!doctype html>
@@ -105,7 +107,8 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
   <body>
     <Header />
 
-    <main>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <main id="main-content">
       <slot />
     </main>
 
@@ -118,31 +121,6 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
       src="/scripts/scroll-to-top.js"
     ></script>
 
-    <script>
-      const isProductionHost =
-        window.location.hostname === 'pactsol.in' ||
-        window.location.hostname === 'www.pactsol.in';
 
-      if (isProductionHost) {
-        document.addEventListener('contextmenu', (event) => {
-          event.preventDefault();
-        });
-
-        document.addEventListener('keydown', (event) => {
-          const key = event.key.toLowerCase();
-
-          const devToolsShortcut =
-            event.key === 'F12' ||
-            (event.ctrlKey &&
-              event.shiftKey &&
-              ['i', 'j', 'c'].includes(key)) ||
-            (event.ctrlKey && key === 'u');
-
-          if (devToolsShortcut) {
-            event.preventDefault();
-          }
-        });
-      }
-    </script>
   </body>
 </html>

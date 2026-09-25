@@ -9,7 +9,9 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "build:dual": "astro build --config astro.dual.config.mjs && node scripts/prepare-dual.mjs",
+    "test:dual": "node scripts/validate-dual.mjs"
   },
   "dependencies": {
     "@astrojs/cloudflare": "^14.2.4",
