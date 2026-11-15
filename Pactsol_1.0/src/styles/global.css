@@ -639,6 +639,84 @@ select {
   margin-top: 26px;
 }
 
+
+/* Business Registration Credentials */
+
+.home-hero__credentials {
+  max-width: 720px;
+  margin-top: 22px;
+  padding: 15px 18px;
+  border: 1px solid var(--color-light);
+  border-left: 3px solid var(--color-accent);
+  border-radius: 6px;
+  background: var(--color-white);
+}
+
+.home-hero__credentials-heading {
+  margin: 0 0 12px;
+  color: var(--color-accent);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+}
+.home-hero__credentials-intro {
+  margin: 0 0 12px;
+  color: var(--color-secondary);
+  font-size: 0.86rem;
+  line-height: 1.5;
+}
+
+.home-hero__credentials-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.home-hero__credential {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.home-hero__credential + .home-hero__credential {
+  padding-left: 16px;
+  border-left: 1px solid var(--color-light);
+}
+
+.home-hero__credential-label {
+  color: var(--color-secondary);
+  font-size: 0.70rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.home-hero__credential strong {
+  color: var(--color-primary);
+  font-size: 0.91rem;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 600px) {
+  .home-hero__credentials {
+    margin-top: 20px;
+    padding: 14px;
+  }
+
+  .home-hero__credentials-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .home-hero__credential + .home-hero__credential {
+    padding-left: 0;
+    padding-top: 12px;
+    border-left: 0;
+    border-top: 1px solid var(--color-light);
+  }
+}
+
+
 .home-hero__primary-cta,
 .home-hero__secondary-cta {
   min-height: 48px;
